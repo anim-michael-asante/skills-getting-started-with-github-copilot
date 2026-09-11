@@ -121,3 +121,18 @@ def test_delete_rejects_missing_participant(client):
     # Assert
     assert response.status_code == 404
     assert response.json()["detail"] == "Participant not found"
+
+
+def test_delete_rejects_unknown_activity(client):
+    # Arrange
+    activity_name = "Unknown Club"
+    email = "missing.student@mergington.edu"
+
+    # Act
+    response = client.delete(
+        f"/activities/{activity_name}/participants/{email}"
+    )
+
+    # Assert
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Activity not found"
